@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\UserController;
 
 /*
@@ -18,4 +19,8 @@ Route::get('/login', [UserController::class, 'show']);
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/datos', function () {
+  return DB::select('select * from paciente');
 });
