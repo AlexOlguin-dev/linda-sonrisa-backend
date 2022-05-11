@@ -15,7 +15,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\View\View
      */
-    public function show(Request $request)
+    public function login(Request $request)
     {
       $rut = $request->input('rut');
       $pass = $request->input('password');
