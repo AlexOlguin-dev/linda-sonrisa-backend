@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EspecialidadesController;
+use App\Http\Controllers\EspecialistasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +17,11 @@ use App\Http\Controllers\UserController;
 |
 */
 
+//LOGIN
 Route::get('/login', [UserController::class, 'login']);
+//COMBOBOX INICIALES DASHBOARD CLIENTE
+Route::get('/especialidades', [EspecialidadesController::class, 'list_especialidades']);
+Route::get('/especialistas', [EspecialistasController::class, 'list_especialistas']);
 
 Route::get('/', function () {
     return view('welcome');
