@@ -19,6 +19,7 @@ use App\Http\Controllers\EspecialistasController;
 
 //LOGIN
 Route::get('/login', [UserController::class, 'login']);
+Route::get('/reg_paciente', [UserController::class, 'registrar_paciente']);
 //COMBOBOX INICIALES DASHBOARD CLIENTE
 Route::get('/especialidades', [EspecialidadesController::class, 'list_especialidades']);
 Route::get('/especialistas', [EspecialistasController::class, 'list_especialistas']);

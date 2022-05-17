@@ -29,4 +29,22 @@ class UserController extends Controller
         "resp" => $resp
       ]);
     }
+
+    public function registrar_paciente(Request $request)
+    {
+      $resp = 'ok';
+      $rut = $request->input('rut');
+      $password = $request->input('password');
+      $mail = $request->input('mail');
+      $telefono = $request->input('telefono');
+      $nombres = $request->input('nombres');
+      $apellidos = $request->input('apellidos');
+      $data = ['rut'=>$rut,'password'=>$password,'mail'=>$mail,'telefono'=>$telefono,'nombres'=>$nombres,'apellidos'=>$apellidos];
+      try {
+        DB::table('PACIENTE')->insert($data);
+      } catch (\Throwable $th) {
+        $resp = 'not_ok';
+      }
+      return response()->json($resp);
+    }
 }
