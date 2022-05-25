@@ -20,4 +20,11 @@ class EspecialidadesController extends Controller
       $especialidades = DB::table('especialidades')->get();
       return response()->json($especialidades);
     }
+
+    public function get_name_especialidad(Request $request)
+    {
+      $id_especialidad = $request->input('id_especialidad');
+      $especialidades = DB::table('especialidades')->where('id','=',$id_especialidad)->get();
+      return response()->json($especialidades);
+    }
 }

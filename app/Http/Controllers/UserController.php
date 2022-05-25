@@ -47,4 +47,9 @@ class UserController extends Controller
       }
       return response()->json($resp);
     }
+
+    public function list_pacientes()
+    {
+      return response()->json("funciona");
+    }
 }
