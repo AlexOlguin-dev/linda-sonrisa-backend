@@ -42,4 +42,33 @@ class EspecialistasController extends Controller
       $especialitas = DB::table('especialista')->where('rut','=',$rut)->get();
       return response()->json($especialitas[0]);
     }
+
+    public function create_especialista(Request $request)
+    {
+      $resp = 'ok';
+      $rut = $request->input('rut');
+      $nombre_completo = $request->input('nombre_completo');
+      $fecha_contratacion = $request->input('fecha_contratacion');
+      $estado_contrato = $request->input('estado_contrato');
+      $password = $request->input('pass');
+      $data = ['rut' => $rut, 'nombre_completo' => $nombre_completo, 'fecha_contratacion' => $fecha_contratacion, 'estado_contrato' => $estado_contrato, 'password' => $password];
+      try {
+        DB::table('especialista')->insert($data);
+      } catch (\Throwable $th) {
+        $resp = 'not_ok';
+      }
+      return response()->json($resp);
+    }
+
+    public function eliminar_especialistas(Request $request)
+    {
+      $resp = 'ok';
+      $rut = $request->input('rut');
+      try {
+        DB::table('especialista')->where('rut','=',$rut)->delete();
+      } catch (\Throwable $th) {
+        $resp = 'not_ok';
+      }
+      return response()->json($resp);
+    }
 }

@@ -50,6 +50,19 @@ class UserController extends Controller
 
     public function list_pacientes()
     {
-      return response()->json("funciona");
+      $clientes = DB::table('paciente')->get();
+      return response()->json($clientes);
+    }
+
+    public function delete_paciente(Request $request)
+    {
+      $resp = 'ok';
+      $rut = $request->input('rut');
+      try {
+        DB::table('paciente')->where('rut','=',$rut)->delete();
+      } catch (\Throwable $th) {
+        $resp = 'not_ok';
+      }
+      return response()->json($resp);
     }
 }
