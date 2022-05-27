@@ -61,6 +61,23 @@ class UserController extends Controller
       try {
         DB::table('paciente')->where('rut','=',$rut)->delete();
       } catch (\Throwable $th) {
+        $resp = "ERROR";
+        $citas_agendadas = DB::table('citas_agendadas')->where('rut_paciente','=',$rut)->get();
+        if (count($citas_agendadas) !== 0) {
+          $resp = 'DATOS';
+        }
+      }
+      return response()->json($resp);
+    }
+
+    public function full_delete_paciente(Request $request)
+    {
+      $resp = 'ok';
+      $rut = $request->input('rut');
+      try {
+        DB::table('citas_agendadas')->where('rut_paciente','=',$rut)->delete();
+        DB::table('paciente')->where('rut','=',$rut)->delete();
+      } catch (\Throwable $th) {
         $resp = 'not_ok';
       }
       return response()->json($resp);

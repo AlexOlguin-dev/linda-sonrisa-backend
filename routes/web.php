@@ -24,11 +24,14 @@ use App\Http\Controllers\TratamientosController;
 
 //LOGIN ADMIN
 Route::get('/admin_login', [AdminController::class, 'login']);
+//LOGIN ESPECIALISTA
+Route::get('/especialista_login', [EspecialistasController::class, 'login']);
 //LOGIN CLIENTE
 Route::get('/login', [UserController::class, 'login']);
 Route::get('/reg_paciente', [UserController::class, 'registrar_paciente']);
 Route::get('/list_paciente', [UserController::class, 'list_pacientes']);
 Route::get('/delete_paciente', [UserController::class, 'delete_paciente']);
+Route::get('/full_delete_paciente', [UserController::class, 'full_delete_paciente']);
 //MAIN
 Route::get('/especialidades', [EspecialidadesController::class, 'list_especialidades']);
 Route::get('/especialistas', [EspecialistasController::class, 'list_especialistas']);
@@ -43,6 +46,7 @@ Route::get('/delete_cita', [CitaAgendadaController::class, 'delete_cita_agendada
 //ESPECIALISTAS
 Route::get('/crear_especialista', [EspecialistasController::class, 'create_especialista']);
 Route::get('/eliminar_especialista', [EspecialistasController::class, 'eliminar_especialistas']);
+Route::get('/full_eliminar_especialista', [EspecialistasController::class, 'full_eliminar_especialistas']);
 //PROVEEDORES
 Route::get('/proveedores', [ProveedoresController::class, 'get_proveedores']);
 Route::get('/crear_proveedor', [ProveedoresController::class, 'create_proveedor']);
@@ -54,6 +58,7 @@ Route::get('/delete_administrativos', [AdministrativosController::class, 'delete
 //TRATAMIENTOS
 Route::get('/tratamientos', [TratamientosController::class, 'get_tratamientos']);
 Route::get('/crear_tratamientos', [TratamientosController::class, 'create_tratamiento']);
+Route::get('/delete_tratamientos', [TratamientosController::class, 'delete_tratamiento']);
 
 Route::get('/', function () {
     return view('welcome');

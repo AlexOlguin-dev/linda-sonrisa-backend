@@ -35,4 +35,16 @@ class TratamientosController extends Controller
       }
       return response()->json($resp);
     }
+
+    public function delete_tratamiento(Request $request)
+    {
+      $resp = 'ok';
+      $id_tratamiento = $request->input('id');
+      try {
+        DB::table('tratamientos')->where('id','=',$id_tratamiento)->delete();
+      } catch (\Throwable $th) {
+        $resp = 'not_ok';
+      }
+      return response()->json($resp);
+    }
 }

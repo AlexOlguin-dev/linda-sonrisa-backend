@@ -67,8 +67,42 @@ class EspecialistasController extends Controller
       try {
         DB::table('especialista')->where('rut','=',$rut)->delete();
       } catch (\Throwable $th) {
-        $resp = 'not_ok';
+        $resp = 'ERROR';
+        $citas_agendadas = DB::table('citas_agendadas')->where('rut_especialista','=',$rut)->get();
+        $especialidad_especialista = DB::table('especialidades_especialista')->where('id_especialista','=',$rut)->get();
+        if (count($citas_agendadas) !== 0 || count($especialidad_especialista) !== 0) {
+          $resp = 'DATOS';
+        }
       }
       return response()->json($resp);
+    }
+
+    public function full_eliminar_especialistas(Request $request)
+    {
+      $resp = 'ok';
+      $rut = $request->input('rut');
+      try {
+        DB::table('citas_agendadas')->where('rut_especialista','=',$rut)->delete();
+        DB::table('especialidades_especialista')->where('id_especialista','=',$rut)->delete();
+        DB::table('especialista')->where('rut','=',$rut)->delete();
+      } catch (\Throwable $th) {
+        $resp = 'ERROR';
+      }
+      return response()->json($resp);
+    }
+
+    public function login(Request $request)
+    {
+      $username = $request->input('username');
+      $pass = $request->input('password');
+      $especialista = DB::table('especialista')->where([['rut','=',$username],['password','=',$pass]])->get();
+      $resp = 'no_autorizado';
+      if (count($especialista) !== 0) {
+        $resp = "autorizado";
+      }
+      return response()->json([
+        "user" => $especialista,
+        "resp" => $resp
+      ]);
     }
 }
