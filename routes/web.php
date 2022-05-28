@@ -29,10 +29,6 @@ Route::get('/admin_login', [AdminController::class, 'login']);
 Route::get('/especialista_login', [EspecialistasController::class, 'login']);
 //LOGIN CLIENTE
 Route::get('/login', [UserController::class, 'login']);
-Route::get('/reg_paciente', [UserController::class, 'registrar_paciente']);
-Route::get('/list_paciente', [UserController::class, 'list_pacientes']);
-Route::get('/delete_paciente', [UserController::class, 'delete_paciente']);
-Route::get('/full_delete_paciente', [UserController::class, 'full_delete_paciente']);
 //MAIN
 Route::get('/especialidades', [EspecialidadesController::class, 'list_especialidades']);
 Route::get('/especialistas', [EspecialistasController::class, 'list_especialistas']);
@@ -45,6 +41,7 @@ Route::get('/citas_tomadas', [CitaAgendadaController::class, 'get_taken_citas'])
 Route::get('/agendar_cita', [CitaAgendadaController::class, 'agendar_cita']);
 Route::get('/delete_cita', [CitaAgendadaController::class, 'delete_cita_agendada']);
 Route::get('/all_citas', [CitaAgendadaController::class, 'get_all_cita_agendada']);
+Route::get('/get_citas_especialista', [CitaAgendadaController::class, 'list_citas_agendadas_especialista']);
 //ESPECIALISTAS
 Route::get('/crear_especialista', [EspecialistasController::class, 'create_especialista']);
 Route::get('/eliminar_especialista', [EspecialistasController::class, 'eliminar_especialistas']);
@@ -70,6 +67,12 @@ Route::get('/asign_productos_proveedores', [ProductoController::class, 'asign_pr
 Route::get('/get_productos_asignados', [ProductoController::class, 'get_productos_asignados']);
 Route::get('/find_producto_by_name', [ProductoController::class, 'find_producto_by_name']);
 Route::get('/find_all_producto_by_name', [ProductoController::class, 'get_all_products_by_name']);
+//PACIENTE
+Route::get('/reg_paciente', [UserController::class, 'registrar_paciente']);
+Route::get('/list_paciente', [UserController::class, 'list_pacientes']);
+Route::get('/delete_paciente', [UserController::class, 'delete_paciente']);
+Route::get('/full_delete_paciente', [UserController::class, 'full_delete_paciente']);
+Route::get('/get_pacientes_segun_especialista', [UserController::class, 'get_pacientes_segun_especialista']);
 
 
 Route::get('/', function () {

@@ -82,4 +82,23 @@ class UserController extends Controller
       }
       return response()->json($resp);
     }
+
+    public function get_pacientes_segun_especialista(Request $request)
+    {
+      $rut_especialista = $request->input('rut_especialista');
+      $citas_agendadas = DB::table('citas_agendadas')->where('rut_especialista','=',$rut_especialista)->get();
+      $citas_agendadas = json_decode($citas_agendadas, true);
+      $pacientes = [];
+      //OBTIENE RUTS PACIENTE
+      for ($i=0; $i < count($citas_agendadas); $i++) { 
+        array_push($pacientes,$citas_agendadas[$i]['rut_paciente']);
+      }
+      //LIMPIA RUTS PACIENTE
+      $result = [];
+      foreach ($pacientes as $key => $value){
+        if(!in_array($value, $result))
+          array_push($result,$value);
+      }
+      return response()->json($result);
+    }
 }

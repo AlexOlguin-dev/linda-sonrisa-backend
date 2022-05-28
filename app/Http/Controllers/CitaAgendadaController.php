@@ -84,4 +84,11 @@ class CitaAgendadaController extends Controller
       $cita_agendada = DB::table('citas_agendadas')->get();
       return response()->json($cita_agendada);
     }
+
+    public function list_citas_agendadas_especialista(Request $request)
+    {
+      $rut_especialista = $request->input('rut_especialista');
+      $citas_agendadas = DB::table('citas_agendadas')->where('rut_especialista','=',$rut_especialista)->get();
+      return response()->json($citas_agendadas);
+    }
 }
