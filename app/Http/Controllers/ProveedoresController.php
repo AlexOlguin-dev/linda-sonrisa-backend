@@ -46,6 +46,24 @@ class ProveedoresController extends Controller
         DB::table('proveedor')->where('rut','=',$rut)->delete();
       } catch (\Throwable $th) {
         $resp = 'not_ok';
+        $productos = DB::table('productos')->where('rut_proveedor','=',$rut)->get();
+        if (count($productos) !== 0) {
+          $resp = 'DATOS';
+        }
+      }
+      return response()->json($resp);
+    }
+
+    public function full_delete_proveedor(Request $request)
+    {
+      $resp = 'ok';
+      $rut = $request->input('rut');
+      $data = ['rut_proveedor' => ''];
+      try {
+        DB::table('productos')->where('rut_proveedor','=',$rut)->update($data);
+        DB::table('proveedor')->where('rut','=',$rut)->delete();
+      } catch (\Throwable $th) {
+        $resp = 'not_ok';
       }
       return response()->json($resp);
     }

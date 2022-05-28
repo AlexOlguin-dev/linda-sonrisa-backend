@@ -79,4 +79,9 @@ class CitaAgendadaController extends Controller
       }
       return response()->json($resp);
     }
+
+    public function get_all_cita_agendada(){
+      $cita_agendada = DB::table('citas_agendadas')->get();
+      return response()->json($cita_agendada);
+    }
 }

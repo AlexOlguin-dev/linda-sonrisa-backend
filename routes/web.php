@@ -10,6 +10,7 @@ use App\Http\Controllers\CitaAgendadaController;
 use App\Http\Controllers\ProveedoresController;
 use App\Http\Controllers\AdministrativosController;
 use App\Http\Controllers\TratamientosController;
+use App\Http\Controllers\ProductoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,7 @@ Route::get('/citas_tomadas_segun_cliente', [CitaAgendadaController::class, 'get_
 Route::get('/citas_tomadas', [CitaAgendadaController::class, 'get_taken_citas']);
 Route::get('/agendar_cita', [CitaAgendadaController::class, 'agendar_cita']);
 Route::get('/delete_cita', [CitaAgendadaController::class, 'delete_cita_agendada']);
+Route::get('/all_citas', [CitaAgendadaController::class, 'get_all_cita_agendada']);
 //ESPECIALISTAS
 Route::get('/crear_especialista', [EspecialistasController::class, 'create_especialista']);
 Route::get('/eliminar_especialista', [EspecialistasController::class, 'eliminar_especialistas']);
@@ -51,6 +53,7 @@ Route::get('/full_eliminar_especialista', [EspecialistasController::class, 'full
 Route::get('/proveedores', [ProveedoresController::class, 'get_proveedores']);
 Route::get('/crear_proveedor', [ProveedoresController::class, 'create_proveedor']);
 Route::get('/eliminar_proveedor', [ProveedoresController::class, 'delete_proveedor']);
+Route::get('/full_eliminar_proveedor', [ProveedoresController::class, 'full_delete_proveedor']);
 //ADMINISTRATIVOS
 Route::get('/administrativos', [AdministrativosController::class, 'get_administrativos']);
 Route::get('/crear_administrativos', [AdministrativosController::class, 'create_administrativo']);
@@ -59,6 +62,15 @@ Route::get('/delete_administrativos', [AdministrativosController::class, 'delete
 Route::get('/tratamientos', [TratamientosController::class, 'get_tratamientos']);
 Route::get('/crear_tratamientos', [TratamientosController::class, 'create_tratamiento']);
 Route::get('/delete_tratamientos', [TratamientosController::class, 'delete_tratamiento']);
+//PRODUCTOS
+Route::get('/productos', [ProductoController::class, 'list_productos']);
+Route::get('/create_productos', [ProductoController::class, 'create_producto']);
+Route::get('/delete_productos', [ProductoController::class, 'delete_producto']);
+Route::get('/asign_productos_proveedores', [ProductoController::class, 'asign_producto_proveedor']);
+Route::get('/get_productos_asignados', [ProductoController::class, 'get_productos_asignados']);
+Route::get('/find_producto_by_name', [ProductoController::class, 'find_producto_by_name']);
+Route::get('/find_all_producto_by_name', [ProductoController::class, 'get_all_products_by_name']);
+
 
 Route::get('/', function () {
     return view('welcome');
