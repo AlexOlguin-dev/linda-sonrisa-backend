@@ -71,7 +71,6 @@ Route::get('/find_all_producto_by_name', [ProductoController::class, 'get_all_pr
 Route::get('/reg_paciente', [UserController::class, 'registrar_paciente']);
 Route::get('/list_paciente', [UserController::class, 'list_pacientes']);
 Route::get('/delete_paciente', [UserController::class, 'delete_paciente']);
-Route::get('/full_delete_paciente', [UserController::class, 'full_delete_paciente']);
 Route::get('/get_pacientes_segun_especialista', [UserController::class, 'get_pacientes_segun_especialista']);
 
 

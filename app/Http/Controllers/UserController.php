@@ -39,7 +39,8 @@ class UserController extends Controller
       $telefono = $request->input('telefono');
       $nombres = $request->input('nombres');
       $apellidos = $request->input('apellidos');
-      $data = ['rut'=>$rut,'password'=>$password,'mail'=>$mail,'telefono'=>$telefono,'nombres'=>$nombres,'apellidos'=>$apellidos];
+      $estado = "ACTIVO";
+      $data = ['rut'=>$rut,'password'=>$password,'mail'=>$mail,'telefono'=>$telefono,'nombres'=>$nombres,'apellidos'=>$apellidos, 'estado' => $estado];
       try {
         DB::table('PACIENTE')->insert($data);
       } catch (\Throwable $th) {
@@ -50,7 +51,7 @@ class UserController extends Controller
 
     public function list_pacientes()
     {
-      $clientes = DB::table('paciente')->get();
+      $clientes = DB::table('paciente')->where('ESTADO','=','ACTIVO')->get();
       return response()->json($clientes);
     }
 
@@ -58,25 +59,9 @@ class UserController extends Controller
     {
       $resp = 'ok';
       $rut = $request->input('rut');
+      $data = ['ESTADO' => 'INACTIVO'];
       try {
-        DB::table('paciente')->where('rut','=',$rut)->delete();
-      } catch (\Throwable $th) {
-        $resp = "ERROR";
-        $citas_agendadas = DB::table('citas_agendadas')->where('rut_paciente','=',$rut)->get();
-        if (count($citas_agendadas) !== 0) {
-          $resp = 'DATOS';
-        }
-      }
-      return response()->json($resp);
-    }
-
-    public function full_delete_paciente(Request $request)
-    {
-      $resp = 'ok';
-      $rut = $request->input('rut');
-      try {
-        DB::table('citas_agendadas')->where('rut_paciente','=',$rut)->delete();
-        DB::table('paciente')->where('rut','=',$rut)->delete();
+        DB::table('paciente')->where('rut','=',$rut)->update($data);
       } catch (\Throwable $th) {
         $resp = 'not_ok';
       }
