@@ -21,6 +21,22 @@ class TratamientosController extends Controller
       return response()->json($tratamientos);
     }
 
+    public function get_tratamientos_main_page()
+    {
+      $tratamientos = DB::table('tratamientos')->get();
+      $vals = [];
+      if (count($tratamientos) <= 3) {
+        for ($i=0; $i < count($tratamientos); $i++) { 
+          array_push($vals,$tratamientos[$i]);
+        }
+      }else{
+        for ($i=0; $i < 4; $i++) {
+          array_push($vals,$tratamientos[$i]);
+        }
+      }
+      return response()->json($vals);
+    }
+
     public function create_tratamiento(Request $request)
     {
       $resp = 'ok';

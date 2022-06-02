@@ -30,10 +30,11 @@ Route::get('/especialista_login', [EspecialistasController::class, 'login']);
 //LOGIN CLIENTE
 Route::get('/login', [UserController::class, 'login']);
 //MAIN
-Route::get('/especialidades', [EspecialidadesController::class, 'list_especialidades']);
 Route::get('/especialistas', [EspecialistasController::class, 'list_especialistas']);
 Route::get('/especialistas_especialidades', [EspecialistasController::class, 'list_especialistas_segun_especialidad']);
 Route::get('/nombre_especialistas', [EspecialistasController::class, 'get_name_especialista']);
+//ESPECIALIDADES
+Route::get('/especialidades', [EspecialidadesController::class, 'list_especialidades']);
 Route::get('/nombre_especialidad', [EspecialidadesController::class, 'get_name_especialidad']);
 //CITAS AGENDADAS CLIENTE
 Route::get('/citas_tomadas_segun_cliente', [CitaAgendadaController::class, 'get_citas_tomadas_segun_cliente']);
@@ -56,6 +57,7 @@ Route::get('/administrativos', [AdministrativosController::class, 'get_administr
 Route::get('/crear_administrativos', [AdministrativosController::class, 'create_administrativo']);
 Route::get('/delete_administrativos', [AdministrativosController::class, 'delete_administrativo']);
 //TRATAMIENTOS
+Route::get('/tratamientos_main_page', [TratamientosController::class, 'get_tratamientos_main_page']);
 Route::get('/tratamientos', [TratamientosController::class, 'get_tratamientos']);
 Route::get('/crear_tratamientos', [TratamientosController::class, 'create_tratamiento']);
 Route::get('/delete_tratamientos', [TratamientosController::class, 'delete_tratamiento']);
