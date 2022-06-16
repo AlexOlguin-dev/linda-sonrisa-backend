@@ -58,6 +58,8 @@ Route::get('/full_eliminar_proveedor', [ProveedoresController::class, 'full_dele
 Route::get('/administrativos', [AdministrativosController::class, 'get_administrativos']);
 Route::get('/crear_administrativos', [AdministrativosController::class, 'create_administrativo']);
 Route::get('/delete_administrativos', [AdministrativosController::class, 'delete_administrativo']);
+Route::get('/edit_administrativo', [AdministrativosController::class, 'edit_administrativo']);
+Route::get('/get_single_administrativo', [AdministrativosController::class, 'get_single_administrativo']);
 //TRATAMIENTOS
 Route::get('/tratamientos_main_page', [TratamientosController::class, 'get_tratamientos_main_page']);
 Route::get('/tratamientos', [TratamientosController::class, 'get_tratamientos']);
