@@ -36,6 +36,7 @@ Route::get('/nombre_especialistas', [EspecialistasController::class, 'get_name_e
 //ESPECIALIDADES
 Route::get('/especialidades', [EspecialidadesController::class, 'list_especialidades']);
 Route::get('/nombre_especialidad', [EspecialidadesController::class, 'get_name_especialidad']);
+Route::get('/create_especialidad_especialista', [EspecialidadesController::class, 'create_especialidad_especialista']);
 //CITAS AGENDADAS CLIENTE
 Route::get('/citas_tomadas_segun_cliente', [CitaAgendadaController::class, 'get_citas_tomadas_segun_cliente']);
 Route::get('/citas_tomadas', [CitaAgendadaController::class, 'get_taken_citas']);
@@ -46,7 +47,8 @@ Route::get('/get_citas_especialista', [CitaAgendadaController::class, 'list_cita
 //ESPECIALISTAS
 Route::get('/crear_especialista', [EspecialistasController::class, 'create_especialista']);
 Route::get('/eliminar_especialista', [EspecialistasController::class, 'eliminar_especialistas']);
-Route::get('/full_eliminar_especialista', [EspecialistasController::class, 'full_eliminar_especialistas']);
+Route::get('/get_single_especialista', [EspecialistasController::class, 'get_single_especialista']);
+Route::get('/editar_especialista', [EspecialistasController::class, 'editar_especialista']);
 //PROVEEDORES
 Route::get('/proveedores', [ProveedoresController::class, 'get_proveedores']);
 Route::get('/crear_proveedor', [ProveedoresController::class, 'create_proveedor']);
@@ -74,7 +76,8 @@ Route::get('/reg_paciente', [UserController::class, 'registrar_paciente']);
 Route::get('/list_paciente', [UserController::class, 'list_pacientes']);
 Route::get('/delete_paciente', [UserController::class, 'delete_paciente']);
 Route::get('/get_pacientes_segun_especialista', [UserController::class, 'get_pacientes_segun_especialista']);
-
+Route::get('/get_single_paciente', [UserController::class, 'get_single_paciente']);
+Route::get('/edit_paciente', [UserController::class, 'edit_paciente']);
 
 Route::get('/', function () {
     return view('welcome');

@@ -86,4 +86,28 @@ class UserController extends Controller
       }
       return response()->json($result);
     }
+
+    public function get_single_paciente(Request $request)
+    {
+      $rut_paciente = $request->input('rut');
+      $paciente = DB::table('paciente')->where('rut','=',$rut_paciente)->get();
+      return response()->json($paciente);
+    }
+
+    public function edit_paciente(Request $request)
+    {
+      $resp = 'ok';
+      $rut = $request->input('rut');
+      $nombres = $request->input('nombres');
+      $apellidos = $request->input('apellidos');
+      $correo = $request->input('correo');
+      $telefono = $request->input('telefono');
+      $data = ['rut' => $rut, 'mail' => $correo, 'telefono' => $telefono, 'nombres' => $nombres, 'apellidos' => $apellidos];
+      try {
+        DB::table('paciente')->where('rut','=',$rut)->update($data);
+      } catch (\Throwable $th) {
+        $resp = 'not_ok';
+      }
+      return response()->json($resp);
+    }
 }

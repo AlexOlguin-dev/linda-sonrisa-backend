@@ -22,7 +22,7 @@ class CitaAgendadaController extends Controller
       $hora = $request->input('hora');
       $rut_cliente = $request->input('rut_cliente');
       $rut_especialista = $request->input('rut_especialista');
-      $data = ['FECHA' => $fecha, 'HORA' => $hora, 'RUT_PACIENTE' => $rut_cliente, 'RUT_ESPECIALISTA' => $rut_especialista];
+      $data = ['FECHA' => $fecha, 'HORA' => $hora, 'RUT_PACIENTE' => $rut_cliente, 'RUT_ESPECIALISTA' => $rut_especialista, 'ESTADO' => 'PENDIENTE'];
       try {
         DB::table('citas_agendadas')->insert($data);
       } catch (\Throwable $th) {
@@ -35,9 +35,7 @@ class CitaAgendadaController extends Controller
     {
       $rut_especialista = $request->input('rut_especialista');
       $fecha = $request->input('fecha');
-      $horas_tomadas = DB::table('citas_agendadas')
-        ->where('rut_especialista','=',$rut_especialista)
-        ->get();
+      $horas_tomadas = DB::table('citas_agendadas')->where('rut_especialista','=',$rut_especialista)->get();
       $horas_tomadas = json_decode($horas_tomadas, true);
       $horas = [];
       for ($i=0; $i < count($horas_tomadas); $i++) { 
@@ -51,7 +49,7 @@ class CitaAgendadaController extends Controller
     public function get_citas_tomadas_segun_cliente(Request $request)
     {
       $rut_cliente = $request->input('rut_paciente');
-      $horas_tomadas = DB::table('citas_agendadas')->where('rut_paciente','=',$rut_cliente)->get();
+      $horas_tomadas = DB::table('citas_agendadas')->where([['rut_paciente','=',$rut_cliente],['ESTADO','=','PENDIENTE']])->get();
       //ARMA UN ARREGLO CON EL NOMBRE DEL ESPECIALISTA
       $horas_tomadas_data = [];
       $horas_tomadas = json_decode($horas_tomadas, true);
@@ -72,8 +70,10 @@ class CitaAgendadaController extends Controller
     {
       $resp = 'ok';
       $id = $request->input('id');
+      $data = ['ESTADO' => 'ANULADA'];
       try {
-        DB::table('citas_agendadas')->where('id','=',$id)->delete();
+        //DB::table('citas_agendadas')->where('id','=',$id)->delete();
+        DB::table('citas_agendadas')->where('id','=',$id)->update($data);
       } catch (\Throwable $th) {
         $resp = 'not_ok';
       }

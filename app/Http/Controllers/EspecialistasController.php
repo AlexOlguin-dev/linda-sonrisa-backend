@@ -17,7 +17,7 @@ class EspecialistasController extends Controller
      */
     public function list_especialistas()
     {
-      $especialitas = DB::table('especialista')->get();
+      $especialitas = DB::table('especialista')->where('ESTADO','=','ACTIVO')->get();
       return response()->json($especialitas);
     }
 
@@ -51,7 +51,7 @@ class EspecialistasController extends Controller
       $fecha_contratacion = $request->input('fecha_contratacion');
       $estado_contrato = $request->input('estado_contrato');
       $password = $request->input('pass');
-      $data = ['rut' => $rut, 'nombre_completo' => $nombre_completo, 'fecha_contratacion' => $fecha_contratacion, 'estado_contrato' => $estado_contrato, 'password' => $password];
+      $data = ['rut' => $rut, 'nombre_completo' => $nombre_completo, 'fecha_contratacion' => $fecha_contratacion, 'estado_contrato' => $estado_contrato, 'password' => $password, 'ESTADO' => 'ACTIVO'];
       try {
         DB::table('especialista')->insert($data);
       } catch (\Throwable $th) {
@@ -64,29 +64,11 @@ class EspecialistasController extends Controller
     {
       $resp = 'ok';
       $rut = $request->input('rut');
+      $data = ['ESTADO' => 'INACTIVO'];
       try {
-        DB::table('especialista')->where('rut','=',$rut)->delete();
+        DB::table('especialista')->where('rut','=',$rut)->update($data);
       } catch (\Throwable $th) {
-        $resp = 'ERROR';
-        $citas_agendadas = DB::table('citas_agendadas')->where('rut_especialista','=',$rut)->get();
-        $especialidad_especialista = DB::table('especialidades_especialista')->where('id_especialista','=',$rut)->get();
-        if (count($citas_agendadas) !== 0 || count($especialidad_especialista) !== 0) {
-          $resp = 'DATOS';
-        }
-      }
-      return response()->json($resp);
-    }
-
-    public function full_eliminar_especialistas(Request $request)
-    {
-      $resp = 'ok';
-      $rut = $request->input('rut');
-      try {
-        DB::table('citas_agendadas')->where('rut_especialista','=',$rut)->delete();
-        DB::table('especialidades_especialista')->where('id_especialista','=',$rut)->delete();
-        DB::table('especialista')->where('rut','=',$rut)->delete();
-      } catch (\Throwable $th) {
-        $resp = 'ERROR';
+        $resp = 'not_ok';
       }
       return response()->json($resp);
     }
@@ -104,5 +86,28 @@ class EspecialistasController extends Controller
         "user" => $especialista,
         "resp" => $resp
       ]);
+    }
+
+    public function get_single_especialista(Request $request)
+    {
+      $rut = $request->input('rut');
+      $especialista = DB::table('especialista')->where('rut','=',$rut)->get();
+      return response()->json($especialista);
+    }
+
+    public function editar_especialista(Request $request)
+    {
+      $resp = 'ok';
+      $rut = $request->input('rut');
+      $nombre_completo = $request->input('nombre_completo');
+      $fecha_contratacion = $request->input('fecha_contratacion');
+      $estado_contrato = $request->input('estado_contrato');
+      $data = ['nombre_completo' => $nombre_completo, 'fecha_contratacion' => $fecha_contratacion, 'estado_contrato' => $estado_contrato];
+      try {
+        DB::table('especialista')->where('rut','=',$rut)->update($data);
+      } catch (\Throwable $th) {
+        $resp = 'not_ok';
+      }
+      return response()->json($resp);
     }
 }

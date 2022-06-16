@@ -27,4 +27,18 @@ class EspecialidadesController extends Controller
       $especialidades = DB::table('especialidades')->where('id','=',$id_especialidad)->get();
       return response()->json($especialidades);
     }
+
+    public function create_especialidad_especialista(Request $request)
+    {
+      $resp = 'ok';
+      $rut_especialista = $request->input('rut');
+      $id_especialidad = $request->input('especialidad');
+      $data = ['id_especialista' => $rut_especialista, 'id_especialidad' => $id_especialidad];
+      try {
+        DB::table('especialidades_especialista')->insert($data);
+      } catch (\Throwable $th) {
+        $resp = 'not_ok';
+      }
+      return response()->json($resp);
+    }
 }
