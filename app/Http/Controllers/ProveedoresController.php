@@ -17,7 +17,7 @@ class ProveedoresController extends Controller
      */
     public function get_proveedores()
     {
-      $proveedores = DB::table('proveedor')->get();
+      $proveedores = DB::table('proveedor')->where('ESTADO','=','ACTIVO')->get();
       return response()->json($proveedores);
     }
 
@@ -29,7 +29,7 @@ class ProveedoresController extends Controller
       $telefono = $request->input('telefono');
       $mail = $request->input('mail');
       $direccion = $request->input('direccion');
-      $data = ['rut' => $rut, 'nombre' => $nombre, 'telefono' => $telefono, 'mail' => $mail, 'direccion' => $direccion];
+      $data = ['rut' => $rut, 'nombre' => $nombre, 'telefono' => $telefono, 'mail' => $mail, 'direccion' => $direccion, 'ESTADO' => 'ACTIVO'];
       try {
         DB::table('proveedor')->insert($data);
       } catch (\Throwable $th) {
@@ -42,26 +42,34 @@ class ProveedoresController extends Controller
     {
       $resp = 'ok';
       $rut = $request->input('rut');
+      $data = ['ESTADO' => 'ELIMINADO'];
       try {
-        DB::table('proveedor')->where('rut','=',$rut)->delete();
+        DB::table('proveedor')->where('rut','=',$rut)->update($data);
+        //DB::table('proveedor')->where('rut','=',$rut)->delete();
       } catch (\Throwable $th) {
         $resp = 'not_ok';
-        $productos = DB::table('productos')->where('rut_proveedor','=',$rut)->get();
-        if (count($productos) !== 0) {
-          $resp = 'DATOS';
-        }
       }
       return response()->json($resp);
     }
 
-    public function full_delete_proveedor(Request $request)
+    public function get_single_proveedor(Request $request)
+    {
+      $rut = $request->input('rut');
+      $proveedor = DB::table('proveedor')->where('rut','=',$rut)->get();
+      return response()->json($proveedor);
+    }
+    
+    public function edit_proveedor(Request $request)
     {
       $resp = 'ok';
       $rut = $request->input('rut');
-      $data = ['rut_proveedor' => ''];
+      $nombre = $request->input('nombre');
+      $telefono = $request->input('telefono');
+      $mail = $request->input('mail');
+      $direccion = $request->input('direccion');
+      $data = ['NOMBRE' => $nombre, 'TELEFONO' => $telefono, 'MAIL' => $mail, 'DIRECCION' => $direccion];
       try {
-        DB::table('productos')->where('rut_proveedor','=',$rut)->update($data);
-        DB::table('proveedor')->where('rut','=',$rut)->delete();
+        DB::table('proveedor')->where('rut','=',$rut)->update($data);
       } catch (\Throwable $th) {
         $resp = 'not_ok';
       }

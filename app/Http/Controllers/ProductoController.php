@@ -17,7 +17,7 @@ class ProductoController extends Controller
      */
     public function list_productos()
     {
-      $productos = DB::table('productos')->get();
+      $productos = DB::table('productos')->where('ESTADO','=','ACTIVO')->get();
       return response()->json($productos);
     }
 
@@ -27,7 +27,7 @@ class ProductoController extends Controller
       $nombre = $request->input('nombre');
       $stock = $request->input('stock');
       $costo = $request->input('costo');
-      $data = ['nombre' => $nombre, 'stock' => $stock, 'costo' => $costo];
+      $data = ['nombre' => $nombre, 'stock' => $stock, 'costo' => $costo, 'ESTADO' => 'ACTIVO'];
       try {
         DB::table('productos')->insert($data);
       } catch (\Throwable $th) {
@@ -40,12 +40,37 @@ class ProductoController extends Controller
     {
       $resp = 'ok';
       $id = $request->input('id');
+      $data = ['ESTADO' => 'ELIMINADO'];
       try {
-        DB::table('productos')->where('id','=',$id)->delete();
+        DB::table('productos')->where('id','=',$id)->update($data);
+        //DB::table('productos')->where('id','=',$id)->delete();
       } catch (\Throwable $th) {
         $resp = 'not_ok';
       }
       return response()->json($resp);
+    }
+
+    public function edit_producto(Request $request)
+    {
+      $resp = 'ok';
+      $id = $request->input('id');
+      $nombre = $request->input('nombre');
+      $stock = $request->input('stock');
+      $costo = $request->input('costo');
+      $data = ['nombre' => $nombre, 'stock' => $stock, 'costo' => $costo];
+      try {
+        DB::table('productos')->where('id','=',$id)->update($data);
+      } catch (\Throwable $th) {
+        $resp = 'not_ok';
+      }
+      return response()->json($resp);
+    }
+
+    public function get_single_producto(Request $request)
+    {
+      $id = $request->input('id');
+      $producto = DB::table('productos')->where('id','=',$id)->get();
+      return response()->json($producto);
     }
 
     public function asign_producto_proveedor(Request $request)

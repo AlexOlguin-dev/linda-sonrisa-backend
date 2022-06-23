@@ -37,6 +37,8 @@ Route::get('/nombre_especialistas', [EspecialistasController::class, 'get_name_e
 Route::get('/especialidades', [EspecialidadesController::class, 'list_especialidades']);
 Route::get('/nombre_especialidad', [EspecialidadesController::class, 'get_name_especialidad']);
 Route::get('/create_especialidad_especialista', [EspecialidadesController::class, 'create_especialidad_especialista']);
+Route::get('/get_especialidades_especialista', [EspecialidadesController::class, 'get_especialidades_especialista']);
+Route::get('/delete_especialidad_especialista', [EspecialidadesController::class, 'delete_especialidad_especialista']);
 //CITAS AGENDADAS CLIENTE
 Route::get('/citas_tomadas_segun_cliente', [CitaAgendadaController::class, 'get_citas_tomadas_segun_cliente']);
 Route::get('/citas_tomadas', [CitaAgendadaController::class, 'get_taken_citas']);
@@ -53,7 +55,8 @@ Route::get('/editar_especialista', [EspecialistasController::class, 'editar_espe
 Route::get('/proveedores', [ProveedoresController::class, 'get_proveedores']);
 Route::get('/crear_proveedor', [ProveedoresController::class, 'create_proveedor']);
 Route::get('/eliminar_proveedor', [ProveedoresController::class, 'delete_proveedor']);
-Route::get('/full_eliminar_proveedor', [ProveedoresController::class, 'full_delete_proveedor']);
+Route::get('/get_single_proveedor', [ProveedoresController::class, 'get_single_proveedor']);
+Route::get('/edit_proveedor', [ProveedoresController::class, 'edit_proveedor']);
 //ADMINISTRATIVOS
 Route::get('/administrativos', [AdministrativosController::class, 'get_administrativos']);
 Route::get('/crear_administrativos', [AdministrativosController::class, 'create_administrativo']);
@@ -65,10 +68,14 @@ Route::get('/tratamientos_main_page', [TratamientosController::class, 'get_trata
 Route::get('/tratamientos', [TratamientosController::class, 'get_tratamientos']);
 Route::get('/crear_tratamientos', [TratamientosController::class, 'create_tratamiento']);
 Route::get('/delete_tratamientos', [TratamientosController::class, 'delete_tratamiento']);
+Route::get('/get_single_tratamiento', [TratamientosController::class, 'get_single_tratamiento']);
+Route::get('/edit_tratamiento', [TratamientosController::class, 'edit_tratamiento']);
 //PRODUCTOS
 Route::get('/productos', [ProductoController::class, 'list_productos']);
 Route::get('/create_productos', [ProductoController::class, 'create_producto']);
+Route::get('/edit_producto', [ProductoController::class, 'edit_producto']);
 Route::get('/delete_productos', [ProductoController::class, 'delete_producto']);
+Route::get('/get_single_producto', [ProductoController::class, 'get_single_producto']);
 Route::get('/asign_productos_proveedores', [ProductoController::class, 'asign_producto_proveedor']);
 Route::get('/get_productos_asignados', [ProductoController::class, 'get_productos_asignados']);
 Route::get('/find_producto_by_name', [ProductoController::class, 'find_producto_by_name']);

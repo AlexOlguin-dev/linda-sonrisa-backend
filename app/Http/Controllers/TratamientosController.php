@@ -17,7 +17,7 @@ class TratamientosController extends Controller
      */
     public function get_tratamientos()
     {
-      $tratamientos = DB::table('tratamientos')->get();
+      $tratamientos = DB::table('tratamientos')->where('ESTADO','=','ACTIVO')->get();
       return response()->json($tratamientos);
     }
 
@@ -43,7 +43,7 @@ class TratamientosController extends Controller
       $nombre = $request->input('nombre');
       $precio = $request->input('precio');
       $descripcion = $request->input('descripcion');
-      $data = ['nombre' => $nombre, 'precio' => $precio, 'descripcion' => $descripcion];
+      $data = ['nombre' => $nombre, 'precio' => $precio, 'descripcion' => $descripcion, 'estado' => 'ACTIVO'];
       try {
         DB::table('tratamientos')->insert($data);
       } catch (\Throwable $th) {
@@ -56,8 +56,33 @@ class TratamientosController extends Controller
     {
       $resp = 'ok';
       $id_tratamiento = $request->input('id');
+      $data = ['ESTADO' => 'ELIMINADO'];
       try {
-        DB::table('tratamientos')->where('id','=',$id_tratamiento)->delete();
+        //DB::table('tratamientos')->where('id','=',$id_tratamiento)->delete();
+        DB::table('tratamientos')->where('id','=',$id_tratamiento)->update($data);
+      } catch (\Throwable $th) {
+        $resp = 'not_ok';
+      }
+      return response()->json($resp);
+    }
+
+    public function get_single_tratamiento(Request $request)
+    {
+      $id = $request->input('id');
+      $tratamientos = DB::table('tratamientos')->where('id','=',$id)->get();
+      return response()->json($tratamientos);
+    }
+
+    public function edit_tratamiento(Request $request)
+    {
+      $resp = 'ok';
+      $id = $request->input('id');
+      $nombre = $request->input('nombre');
+      $precio = $request->input('precio');
+      $descripcion = $request->input('descripcion');
+      $data = ['nombre' => $nombre, 'precio' => $precio, 'descripcion' => $descripcion];
+      try {
+        DB::table('tratamientos')->where('id','=',$id)->update($data);
       } catch (\Throwable $th) {
         $resp = 'not_ok';
       }
