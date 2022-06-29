@@ -43,7 +43,7 @@ class TratamientosController extends Controller
       $nombre = $request->input('nombre');
       $precio = $request->input('precio');
       $descripcion = $request->input('descripcion');
-      $data = ['nombre' => $nombre, 'precio' => $precio, 'descripcion' => $descripcion, 'estado' => 'ACTIVO'];
+      $data = ['nombre' => $nombre, 'precio' => $precio, 'descripcion' => $descripcion, 'estado' => 'ACTIVO', 'IMAGEN' => 'default.jpg'];
       try {
         DB::table('tratamientos')->insert($data);
       } catch (\Throwable $th) {

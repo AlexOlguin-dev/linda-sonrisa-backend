@@ -11,6 +11,8 @@ use App\Http\Controllers\ProveedoresController;
 use App\Http\Controllers\AdministrativosController;
 use App\Http\Controllers\TratamientosController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\OrdenPedidoController;
+use App\Http\Controllers\TratamientosAgendadosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,6 +89,14 @@ Route::get('/delete_paciente', [UserController::class, 'delete_paciente']);
 Route::get('/get_pacientes_segun_especialista', [UserController::class, 'get_pacientes_segun_especialista']);
 Route::get('/get_single_paciente', [UserController::class, 'get_single_paciente']);
 Route::get('/edit_paciente', [UserController::class, 'edit_paciente']);
+//ORDENES PEDIDO
+Route::get('/crear_orden_pedido', [OrdenPedidoController::class, 'crear_orden_pedido']);
+Route::get('/list_ordenes_pedido', [OrdenPedidoController::class, 'list_ordenes_pedido']);
+Route::get('/get_single_orden_pedido', [OrdenPedidoController::class, 'get_single_orden_pedido']);
+Route::get('/editar_orden_pedido', [OrdenPedidoController::class, 'editar_orden_pedido']);
+Route::get('/eliminar_orden_pedido', [OrdenPedidoController::class, 'eliminar_orden_pedido']);
+//TRATAMIENTOS AGENDADOS
+Route::get('/listarTratamientosAgendados', [TratamientosAgendadosController::class, 'listarTratamientosAgendados']);
 
 Route::get('/', function () {
     return view('welcome');
