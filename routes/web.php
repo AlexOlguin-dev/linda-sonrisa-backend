@@ -13,6 +13,7 @@ use App\Http\Controllers\TratamientosController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\OrdenPedidoController;
 use App\Http\Controllers\TratamientosAgendadosController;
+use App\Http\Controllers\DiagnosticoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,7 @@ Route::get('/agendar_cita', [CitaAgendadaController::class, 'agendar_cita']);
 Route::get('/delete_cita', [CitaAgendadaController::class, 'delete_cita_agendada']);
 Route::get('/all_citas', [CitaAgendadaController::class, 'get_all_cita_agendada']);
 Route::get('/get_citas_especialista', [CitaAgendadaController::class, 'list_citas_agendadas_especialista']);
+Route::get('/search_cita_agendada', [CitaAgendadaController::class, 'search_cita_agendada']);
 //ESPECIALISTAS
 Route::get('/crear_especialista', [EspecialistasController::class, 'create_especialista']);
 Route::get('/eliminar_especialista', [EspecialistasController::class, 'eliminar_especialistas']);
@@ -89,14 +91,24 @@ Route::get('/delete_paciente', [UserController::class, 'delete_paciente']);
 Route::get('/get_pacientes_segun_especialista', [UserController::class, 'get_pacientes_segun_especialista']);
 Route::get('/get_single_paciente', [UserController::class, 'get_single_paciente']);
 Route::get('/edit_paciente', [UserController::class, 'edit_paciente']);
+Route::get('/search_paciente', [UserController::class, 'search_paciente']);
 //ORDENES PEDIDO
 Route::get('/crear_orden_pedido', [OrdenPedidoController::class, 'crear_orden_pedido']);
 Route::get('/list_ordenes_pedido', [OrdenPedidoController::class, 'list_ordenes_pedido']);
 Route::get('/get_single_orden_pedido', [OrdenPedidoController::class, 'get_single_orden_pedido']);
 Route::get('/editar_orden_pedido', [OrdenPedidoController::class, 'editar_orden_pedido']);
 Route::get('/eliminar_orden_pedido', [OrdenPedidoController::class, 'eliminar_orden_pedido']);
+Route::get('/get_orden_pedido_segun_especialista', [OrdenPedidoController::class, 'get_orden_pedido_segun_especialista']);
+Route::get('/anular_solicitud', [OrdenPedidoController::class, 'anular_solicitud']);
 //TRATAMIENTOS AGENDADOS
 Route::get('/listarTratamientosAgendados', [TratamientosAgendadosController::class, 'listarTratamientosAgendados']);
+Route::get('/create_tratamiento_agendado', [TratamientosAgendadosController::class, 'create_tratamiento_agendado']);
+Route::get('/list_tratamientos_paciente', [TratamientosAgendadosController::class, 'list_tratamientos_paciente']);
+Route::get('/tratamientos_agendados_segun_especialista', [TratamientosAgendadosController::class, 'tratamientos_agendados_segun_especialista']);
+Route::get('/anular_tratamiento_agendado', [TratamientosAgendadosController::class, 'anular_tratamiento_agendado']);
+//DIAGNOSTICOS
+Route::get('/create_diagnostico', [DiagnosticoController::class, 'create_diagnostico']);
+Route::get('/list_diagnosticos_paciente_especialista', [DiagnosticoController::class, 'list_diagnosticos_paciente_especialista']);
 
 Route::get('/', function () {
     return view('welcome');

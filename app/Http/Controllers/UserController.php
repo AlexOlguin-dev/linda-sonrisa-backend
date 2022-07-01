@@ -71,12 +71,17 @@ class UserController extends Controller
     public function get_pacientes_segun_especialista(Request $request)
     {
       $rut_especialista = $request->input('rut_especialista');
-      $citas_agendadas = DB::table('citas_agendadas')->where('rut_especialista','=',$rut_especialista)->get();
+      $citas_agendadas = DB::table('citas_agendadas')->where([['rut_especialista','=',$rut_especialista],['ESTADO','=','PENDIENTE']])->get();
       $citas_agendadas = json_decode($citas_agendadas, true);
       $pacientes = [];
       //OBTIENE RUTS PACIENTE
-      for ($i=0; $i < count($citas_agendadas); $i++) { 
-        array_push($pacientes,$citas_agendadas[$i]['rut_paciente']);
+      for ($i=0; $i < count($citas_agendadas); $i++) {
+        $paciente = DB::table('paciente')->where('rut','=',$citas_agendadas[$i]['rut_paciente'])->get();
+        $paciente = json_decode($paciente, true);
+        array_push($pacientes,[
+          'rut_paciente' => $citas_agendadas[$i]['rut_paciente'],
+          'nombre_paciente' => $paciente[0]['nombres'].' '.$paciente[0]['apellidos']
+        ]);
       }
       //LIMPIA RUTS PACIENTE
       $result = [];
@@ -109,5 +114,30 @@ class UserController extends Controller
         $resp = 'not_ok';
       }
       return response()->json($resp);
+    }
+
+    public function search_paciente(Request $request)
+    {
+      $rut = $request->input('rut');
+      $rut_especialista = $request->input('rut_especialista');
+      $citas_agendadas = DB::table('citas_agendadas')->where([['rut_paciente','LIKE','%'.$rut.'%'],['ESTADO','=','PENDIENTE'],['rut_especialista','=',$rut_especialista]])->get();
+      $citas_agendadas = json_decode($citas_agendadas, true);
+      $pacientes = [];
+      //OBTIENE RUTS PACIENTE
+      for ($i=0; $i < count($citas_agendadas); $i++) { 
+        $paciente = DB::table('paciente')->where('rut','=',$citas_agendadas[$i]['rut_paciente'])->get();
+        $paciente = json_decode($paciente, true);
+        array_push($pacientes,[
+          'rut_paciente' => $citas_agendadas[$i]['rut_paciente'],
+          'nombre_paciente' => $paciente[0]['nombres'].' '.$paciente[0]['apellidos']
+        ]);
+      }
+      //LIMPIA RUTS PACIENTE
+      $result = [];
+      foreach ($pacientes as $key => $value){
+        if(!in_array($value, $result))
+          array_push($result,$value);
+      }
+      return response()->json($result);
     }
 }
