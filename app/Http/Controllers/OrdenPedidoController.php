@@ -118,4 +118,18 @@ class OrdenPedidoController extends Controller
       }
       return response()->json($resp);
     }
+
+    public function change_estado(Request $request)
+    {
+      $resp = 'ok';
+      $id_solicitud = $request->input('id_solicitud');
+      $estado = $request->input('estado');
+      $data = ['ESTADO_SOLICITUD' => $estado];
+      try {
+        DB::table('solicitud_insumos')->where('id_solicitud','=',$id_solicitud)->update($data);
+      } catch (\Throwable $th) {
+        $resp = 'not_ok';
+      }
+      return response()->json($resp);
+    }
 }

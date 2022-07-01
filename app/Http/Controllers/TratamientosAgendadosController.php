@@ -92,4 +92,25 @@ class TratamientosAgendadosController extends Controller
       }
       return response()->json($resp);
     }
+
+    public function get_tratamiento_agendado_cita_agendada(Request $request)
+    {
+      $id_cita_agendada = $request->input('id_cita_agendada');
+      $tratamiento = DB::table('tratamiento_agendado')->where([['id_cita_agendada','=',$id_cita_agendada],['ESTADO','=','ACTIVO']])->get();
+      $tratamiento = json_decode($tratamiento, true);
+      $tratamiento_data = [];
+      for ($i=0; $i < count($tratamiento); $i++) { 
+        $tratamiento_nombre = DB::table('tratamientos')->where('id','=',$tratamiento[$i]['id_tratamiento'])->get();
+        $tratamiento_nombre = json_decode($tratamiento_nombre, true);
+        array_push($tratamiento_data,[
+          "id" => $tratamiento[$i]['id'],
+          "id_tratamiento" => $tratamiento[$i]['id_tratamiento'],
+          "nombre_tratamiento" => $tratamiento_nombre[0]['nombre'],
+          "costo" => $tratamiento_nombre[0]['precio'],
+          "id_cita_agendada" => $tratamiento[$i]['id_cita_agendada'],
+          "estado" => $tratamiento[$i]['estado']
+        ]);
+      }
+      return response()->json($tratamiento_data);
+    }
 }

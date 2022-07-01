@@ -14,6 +14,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\OrdenPedidoController;
 use App\Http\Controllers\TratamientosAgendadosController;
 use App\Http\Controllers\DiagnosticoController;
+use App\Http\Controllers\BoletasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,8 @@ Route::get('/admin_login', [AdminController::class, 'login']);
 Route::get('/especialista_login', [EspecialistasController::class, 'login']);
 //LOGIN CLIENTE
 Route::get('/login', [UserController::class, 'login']);
+//LOGIN ADMINISTRATIVO
+Route::get('/login', [AdministrativosController::class, 'login']);
 //MAIN
 Route::get('/especialistas', [EspecialistasController::class, 'list_especialistas']);
 Route::get('/especialistas_especialidades', [EspecialistasController::class, 'list_especialistas_segun_especialidad']);
@@ -42,7 +45,7 @@ Route::get('/nombre_especialidad', [EspecialidadesController::class, 'get_name_e
 Route::get('/create_especialidad_especialista', [EspecialidadesController::class, 'create_especialidad_especialista']);
 Route::get('/get_especialidades_especialista', [EspecialidadesController::class, 'get_especialidades_especialista']);
 Route::get('/delete_especialidad_especialista', [EspecialidadesController::class, 'delete_especialidad_especialista']);
-//CITAS AGENDADAS CLIENTE
+//CITAS AGENDADAS
 Route::get('/citas_tomadas_segun_cliente', [CitaAgendadaController::class, 'get_citas_tomadas_segun_cliente']);
 Route::get('/citas_tomadas', [CitaAgendadaController::class, 'get_taken_citas']);
 Route::get('/agendar_cita', [CitaAgendadaController::class, 'agendar_cita']);
@@ -50,6 +53,8 @@ Route::get('/delete_cita', [CitaAgendadaController::class, 'delete_cita_agendada
 Route::get('/all_citas', [CitaAgendadaController::class, 'get_all_cita_agendada']);
 Route::get('/get_citas_especialista', [CitaAgendadaController::class, 'list_citas_agendadas_especialista']);
 Route::get('/search_cita_agendada', [CitaAgendadaController::class, 'search_cita_agendada']);
+Route::get('/search_cita_agendada_administrativo', [CitaAgendadaController::class, 'search_cita_agendada_administrativo']);
+Route::get('/get_citas_agendadas_sin_boleta', [CitaAgendadaController::class, 'get_citas_agendadas_sin_boleta']);
 //ESPECIALISTAS
 Route::get('/crear_especialista', [EspecialistasController::class, 'create_especialista']);
 Route::get('/eliminar_especialista', [EspecialistasController::class, 'eliminar_especialistas']);
@@ -100,15 +105,20 @@ Route::get('/editar_orden_pedido', [OrdenPedidoController::class, 'editar_orden_
 Route::get('/eliminar_orden_pedido', [OrdenPedidoController::class, 'eliminar_orden_pedido']);
 Route::get('/get_orden_pedido_segun_especialista', [OrdenPedidoController::class, 'get_orden_pedido_segun_especialista']);
 Route::get('/anular_solicitud', [OrdenPedidoController::class, 'anular_solicitud']);
+Route::get('/change_estado', [OrdenPedidoController::class, 'change_estado']);
 //TRATAMIENTOS AGENDADOS
 Route::get('/listarTratamientosAgendados', [TratamientosAgendadosController::class, 'listarTratamientosAgendados']);
 Route::get('/create_tratamiento_agendado', [TratamientosAgendadosController::class, 'create_tratamiento_agendado']);
 Route::get('/list_tratamientos_paciente', [TratamientosAgendadosController::class, 'list_tratamientos_paciente']);
 Route::get('/tratamientos_agendados_segun_especialista', [TratamientosAgendadosController::class, 'tratamientos_agendados_segun_especialista']);
 Route::get('/anular_tratamiento_agendado', [TratamientosAgendadosController::class, 'anular_tratamiento_agendado']);
+Route::get('/get_tratamiento_agendado_cita_agendada', [TratamientosAgendadosController::class, 'get_tratamiento_agendado_cita_agendada']);
 //DIAGNOSTICOS
 Route::get('/create_diagnostico', [DiagnosticoController::class, 'create_diagnostico']);
 Route::get('/list_diagnosticos_paciente_especialista', [DiagnosticoController::class, 'list_diagnosticos_paciente_especialista']);
+//BOLETA
+Route::get('/emitir_boleta', [BoletasController::class, 'emitir_boleta']);
+Route::get('/get_all_boletas', [BoletasController::class, 'get_all_boletas']);
 
 Route::get('/', function () {
     return view('welcome');

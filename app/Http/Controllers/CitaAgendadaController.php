@@ -105,9 +105,6 @@ class CitaAgendadaController extends Controller
 
     public function list_citas_agendadas_especialista(Request $request)
     {
-      //$rut_especialista = $request->input('rut_especialista');
-      //$citas_agendadas = DB::table('citas_agendadas')->where('rut_especialista','=',$rut_especialista)->get();
-      //return response()->json($citas_agendadas);
       $rut_especialista = $request->input('rut_especialista');
       $citas_agendadas = DB::table('citas_agendadas')->where([['rut_especialista','=',$rut_especialista],['ESTADO','=','PENDIENTE']])->get();
       $citas_agendadas = json_decode($citas_agendadas,true);
@@ -130,10 +127,6 @@ class CitaAgendadaController extends Controller
 
     public function search_cita_agendada(Request $request)
     {
-      /*$rut = $request->input('rut');
-      $rut_especialista = $request->input('rut_especialista');
-      $citas_agendadas = DB::table('citas_agendadas')->where([['rut_paciente','LIKE','%'.$rut.'%'],['rut_especialista','=',$rut_especialista]])->get();
-      return response()->json($citas_agendadas);*/
       $rut = $request->input('rut');
       $rut_especialista = $request->input('rut_especialista');
       $citas_agendadas = DB::table('citas_agendadas')->where([['rut_paciente','LIKE','%'.$rut.'%'],['rut_especialista','=',$rut_especialista],['ESTADO','=','PENDIENTE']])->get();
@@ -151,6 +144,62 @@ class CitaAgendadaController extends Controller
           "rut_especialista" => $citas_agendadas[$i]['rut_especialista'],
           "estado" => $citas_agendadas[$i]['estado']
         ]);
+      }
+      return response()->json($citas);
+    }
+
+    public function search_cita_agendada_administrativo(Request $request)
+    {
+      $rut = $request->input('rut');
+      $citas_agendadas = DB::table('citas_agendadas')->where([['rut_paciente','LIKE','%'.$rut.'%'],['ESTADO','=','PENDIENTE']])->get();
+      $citas_agendadas = json_decode($citas_agendadas,true);
+      usort($citas_agendadas, function($a, $b) {return ($a['fecha'] > $b['fecha']) ? -1 : 1;});
+      $citas = [];
+      for ($i=0; $i < count($citas_agendadas); $i++) { 
+        $paciente = DB::table('paciente')->where('rut','=',$citas_agendadas[$i]['rut_paciente'])->get();
+        $paciente = json_decode($paciente, true);
+        $boletas = DB::table('boleta_cita')->where('id_cita_agendada','=',$citas_agendadas[$i]['id'])->get();
+        $boletas = json_decode($boletas, true);
+        if (count($boletas) === 0) {
+          array_push($citas,[
+            "id" => $citas_agendadas[$i]['id'],
+            "fecha" => date("d-m-Y", strtotime($citas_agendadas[$i]['fecha'])),
+            "hora" => $citas_agendadas[$i]['hora'],
+            "rut_paciente" => $citas_agendadas[$i]['rut_paciente'],
+            "nombre_paciente" => $paciente[0]['nombres'].' '.$paciente[0]['apellidos'],
+            "rut_especialista" => $citas_agendadas[$i]['rut_especialista'],
+            "estado" => $citas_agendadas[$i]['estado']
+          ]);
+        }
+      }
+      return response()->json($citas);
+    }
+
+    public function get_citas_agendadas_sin_boleta(Request $request)
+    {
+      $citas_agendadas = DB::table('citas_agendadas')->get();
+      $citas_agendadas = json_decode($citas_agendadas, true);
+      usort($citas_agendadas, function($a, $b) {return ($a['fecha'] > $b['fecha']) ? -1 : 1;});
+      $citas = [];
+      for ($i=0; $i < count($citas_agendadas); $i++) { 
+        $paciente = DB::table('paciente')->where('rut','=',$citas_agendadas[$i]['rut_paciente'])->get();
+        $paciente = json_decode($paciente, true);
+        $especialista = DB::table('especialista')->where('rut','=',$citas_agendadas[$i]['rut_especialista'])->get();
+        $especialista = json_decode($especialista, true);
+        $boletas = DB::table('boleta_cita')->where('id_cita_agendada','=',$citas_agendadas[$i]['id'])->get();
+        $boletas = json_decode($boletas, true);
+        if (count($boletas) === 0) {
+          array_push($citas, [
+            "id" => $citas_agendadas[$i]['id'],
+            "fecha" => date("d-m-Y", strtotime($citas_agendadas[$i]['fecha'])),
+            "hora" => $citas_agendadas[$i]['hora'],
+            "rut_paciente" => $citas_agendadas[$i]['rut_paciente'],
+            "nombre_paciente" => $paciente[0]['nombres'].' '.$paciente[0]['apellidos'],
+            "rut_especialista" => $citas_agendadas[$i]['rut_especialista'],
+            "nombre_especialista" => $especialista[0]['nombre_completo'],
+            "estado" => $citas_agendadas[$i]['estado']
+          ]);
+        }
       }
       return response()->json($citas);
     }

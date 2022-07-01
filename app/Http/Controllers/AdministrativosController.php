@@ -74,4 +74,19 @@ class AdministrativosController extends Controller
       $administrativo = DB::table('administrativos')->where('rut','=',$rut)->get();
       return response()->json($administrativo);
     }
+
+    public function login(Request $request)
+    {
+      $username = $request->input('username');
+      $pass = $request->input('pass');
+      $administrativo = DB::table('administrativos')->where([['rut','=',$username],['password','=',$pass]])->get();
+      $resp = 'no_autorizado';
+      if (count($administrativo) !== 0) {
+        $resp = 'autorizado';
+      }
+      return response()->json([
+        "user" => $administrativo,
+        "resp" => $resp
+      ]);
+    }
 }
