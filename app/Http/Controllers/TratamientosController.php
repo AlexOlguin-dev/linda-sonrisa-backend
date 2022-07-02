@@ -23,7 +23,8 @@ class TratamientosController extends Controller
 
     public function get_tratamientos_main_page()
     {
-      $tratamientos = DB::table('tratamientos')->get();
+      $tratamientos = DB::table('tratamientos')->where('ESTADO','=','ACTIVO')->get();
+      $tratamientos = json_decode($tratamientos, true);
       $vals = [];
       if (count($tratamientos) <= 3) {
         for ($i=0; $i < count($tratamientos); $i++) { 
@@ -31,7 +32,14 @@ class TratamientosController extends Controller
         }
       }else{
         for ($i=0; $i < 4; $i++) {
-          array_push($vals,$tratamientos[$i]);
+          array_push($vals,[
+            "id" => $tratamientos[$i]['id'],
+            "nombre" => $tratamientos[$i]['nombre'],
+            "precio" => $tratamientos[$i]['precio'],
+            "descripcion" => $tratamientos[$i]['descripcion'],
+            "estado" => $tratamientos[$i]['estado'],
+            "index" => $i
+          ]);
         }
       }
       return response()->json($vals);

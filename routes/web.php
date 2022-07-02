@@ -15,6 +15,7 @@ use App\Http\Controllers\OrdenPedidoController;
 use App\Http\Controllers\TratamientosAgendadosController;
 use App\Http\Controllers\DiagnosticoController;
 use App\Http\Controllers\BoletasController;
+use App\Http\Controllers\InformesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +35,7 @@ Route::get('/especialista_login', [EspecialistasController::class, 'login']);
 //LOGIN CLIENTE
 Route::get('/login', [UserController::class, 'login']);
 //LOGIN ADMINISTRATIVO
-Route::get('/login', [AdministrativosController::class, 'login']);
+Route::get('/administrativo_login', [AdministrativosController::class, 'login']);
 //MAIN
 Route::get('/especialistas', [EspecialistasController::class, 'list_especialistas']);
 Route::get('/especialistas_especialidades', [EspecialistasController::class, 'list_especialistas_segun_especialidad']);
@@ -119,6 +120,10 @@ Route::get('/list_diagnosticos_paciente_especialista', [DiagnosticoController::c
 //BOLETA
 Route::get('/emitir_boleta', [BoletasController::class, 'emitir_boleta']);
 Route::get('/get_all_boletas', [BoletasController::class, 'get_all_boletas']);
+//INFORMES
+Route::get('/popular_odontologos', [InformesController::class, 'popular_odontologos']);
+Route::get('/popular_tratamiento', [InformesController::class, 'popular_tratamiento']);
+Route::get('/popular_producto', [InformesController::class, 'popular_producto']);
 
 Route::get('/', function () {
     return view('welcome');

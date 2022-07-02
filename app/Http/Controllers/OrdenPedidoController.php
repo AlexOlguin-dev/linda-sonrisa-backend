@@ -124,9 +124,17 @@ class OrdenPedidoController extends Controller
       $resp = 'ok';
       $id_solicitud = $request->input('id_solicitud');
       $estado = $request->input('estado');
+      $cant = $request->input('cant');
+      $id_producto = $request->input('id_producto');
       $data = ['ESTADO_SOLICITUD' => $estado];
+      $producto = DB::table('productos')->where('id','=',$id_producto)->get();
+      $producto = json_decode($producto, true);
+      $data2 = ['stock' => $producto[0]['stock']+$cant];
       try {
         DB::table('solicitud_insumos')->where('id_solicitud','=',$id_solicitud)->update($data);
+        if ($estado === 'RECIBIDO') {
+          DB::table('productos')->where('id','=',$id_producto)->update($data2);
+        }
       } catch (\Throwable $th) {
         $resp = 'not_ok';
       }
